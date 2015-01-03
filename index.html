@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,16 +22,15 @@
   
     <link rel="icon" href="/favicon.png">
   
-  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="/css/style.css" type="text/css">
 
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
   
-
 </head>
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
+<div id="container">
+  <div id="wrap">
+    <header id="header">
   <div id="banner"></div>
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
@@ -59,13 +59,365 @@
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
+        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="yoursite.com">
+        </form>
       </div>
     </div>
   </div>
 </header>
-      <div class="outer">
-        <section id="main">
+    <div class="outer">
+      <section id="main">
+  
+    <article id="post-Find-Minimum-in-Rotated-Sorted-Array-II" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/02/Find-Minimum-in-Rotated-Sorted-Array-II/" class="article-date">
+  <time datetime="2015-01-03T01:09:59.000Z" itemprop="datePublished">Jan 2 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Leetcode/">Leetcode</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/02/Find-Minimum-in-Rotated-Sorted-Array-II/">Find Minimum in Rotated Sorted Array II </a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>Question : Suppose a sorted array is rotated at some pivot unknown to you beforehand.<br>(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).<br>Find the minimum element.<br>The array may contain duplicates.</p>
+</blockquote>
+<h4 id="Approach">Approach</h4>
+<p>经典题改编 把sorted array 变形了一下 找到最小值<br>废话不说 先上图， 左边的图表示的是如果array没有rotated，右边的自然是rotated过后的样子。可以沿用之前最基本的algo,稍加修改就可以完成这个算法。<br>最基本的算法可以参考 <a href="/2015/01/02/Binary-Search/">Binary Search</a><br>观察右边的图可以发现：<br>如果 M 在 左边的那条线上， M 一定大于 R, 因此 L ＝ M ＋ 1<br>如果 M 在 右边的那条线上， M 一定是小于 R或者是等于R, 因此 R ＝ M. 等于R的情况是 M 正好落在了右边那条线的第一个点上，也正是如此，我们不能用 R = M - 1;<br>首先，需要注意的是，while loop 的condition 发生了改变, 第一是加了个额外条件 A[L] &gt; A[R]， 这样做的原因是为了确保这个array是rotated. 一旦，A［L］ &lt; A[R], 说明L从左边边那条线移到了右边，所以直接return A[L] 既得到结果。<br>第二注意， L &lt;  R 而不是 L &lt;= R, 如果出现了 L ＝ R 的情况， 那就是 L和R 正好都在最小值的index那里， 所以直接return A[L]即可，不需要再次进入while loop. 如果进入的话， 因为 R ＝ M， 所以while loop 会进入无限循环之中。   </p>
+<p><img src="http://i58.tinypic.com/2a98mz4.png" alt=""></p>
+<h4 id="Solution">Solution</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findMin</span>(<span class="keyword">int</span>[] A) {</div><div class="line">	<span class="keyword">int</span> L = <span class="number">0</span>, R = A.length - <span class="number">1</span>;</div><div class="line">	<span class="keyword">while</span> (L &lt; R &amp;&amp; A[L] &gt;= A[R]) {</div><div class="line">	    <span class="keyword">int</span> M = (L + R) / <span class="number">2</span>;</div><div class="line">	    <span class="keyword">if</span> (A[M] &gt; A[R]) {</div><div class="line">	        L = M + <span class="number">1</span>;</div><div class="line">	    } <span class="keyword">else</span> <span class="keyword">if</span> (A[M] &lt; A[L]) {</div><div class="line">	        R = M;</div><div class="line">	    } <span class="keyword">else</span> { <span class="comment">// A[L] == A[M] == A[R]</span></div><div class="line">	        L = L + <span class="number">1</span>; </div><div class="line">	    }</div><div class="line">	}</div><div class="line">	<span class="keyword">return</span> A[L];</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><br></p>
+<h5 id="Performance">Performance</h5>
+<pre><code>Time: <span class="keyword">O</span>(log n)  <span class="keyword">Space</span>: <span class="keyword">O</span>(<span class="number">1</span>)
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/2015/01/02/Find-Minimum-in-Rotated-Sorted-Array-II/" data-id="txfg5jsdh6mgl8d0" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/">Binary Search</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Binary-Search" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/02/Binary-Search/" class="article-date">
+  <time datetime="2015-01-02T23:14:21.000Z" itemprop="datePublished">Jan 2 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/02/Binary-Search/">Binary Search</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Introduction">Introduction</h3>
+<p>相信接触过算法的朋友对这个Binary Search都应该很熟悉 简单的来讲就是用 <strong>O(log n)</strong> 的时间去搜索一个sorted array. 注意，这里面有个key word -&gt; sorted array. 正是因为是sorted, 所以我们可以每次找到array的中间值，然后比较这个中间值的大小与given target的大小，以此来决定我们是从中间element的右边还是左边开始下一次的搜索。</p>
+<h4 id="Classical_Binary_Search_Question">Classical Binary Search Question</h4>
+<blockquote>
+<p>Given an sorted integer array - a, and an integer - target. Find the first position of target in a, return -1 if target doesn’t exist.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">binarySearch</span>(<span class="keyword">int</span>[] a, <span class="keyword">int</span> target) {</div><div class="line">     <span class="keyword">int</span> lo = <span class="number">0</span>;</div><div class="line">     <span class="keyword">int</span> hi = a.length - <span class="number">1</span>;</div><div class="line">     <span class="keyword">while</span> (lo &lt;= hi) {</div><div class="line">        <span class="keyword">int</span> mid = (lo + hi)/<span class="number">2</span>;</div><div class="line">        <span class="keyword">if</span> (a[mid] == target) <span class="keyword">return</span> mid;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (a[mid] &lt; target) lo = mid + <span class="number">1</span>;</div><div class="line">        <span class="keyword">else</span> hi = mid - <span class="number">1</span>;</div><div class="line">     }</div><div class="line">     <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">  }</div></pre></td></tr></table></figure>
+
+<p>这个alorithm 应该很好理解，唯一需要注意的是while loop的condition是 lo&lt;= hi 而不是lo &lt; hi, 这样做的原因是如果不巧，正好我们algorithm 搜索到最后一次的时候是target值，而此时正好lo == hi,如果while loop 的 condition 是 lo &lt; hi 的话，则进入不了while loop, function return -1，得到了错误的答案。 lo &lt;= hi 这个condition 就可以解决这个edge case.  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/2015/01/02/Binary-Search/" data-id="5hpcwpfkxzz2pzag" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/">Binary Search</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Find-Minimum-in-Rotated-Sorted-Array" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/02/Find-Minimum-in-Rotated-Sorted-Array/" class="article-date">
+  <time datetime="2015-01-02T21:32:27.000Z" itemprop="datePublished">Jan 2 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Leetcode/">Leetcode</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/02/Find-Minimum-in-Rotated-Sorted-Array/">Find Minimum in Rotated Sorted Array</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>Question :  Suppose a sorted array is rotated at some pivot unknown to you beforehand.<br>(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).<br>Find the minimum element.<br>You may assume no duplicate exists in the array.</p>
+</blockquote>
+<h4 id="Approach">Approach</h4>
+<p>经典题改编 把sorted array 变形了一下 找到最小值<br>废话不说 先上图， 左边的图表示的是如果array没有rotated，右边的自然是rotated过后的样子。可以沿用之前最基本的algo,稍加修改就可以完成这个算法。<br>最基本的算法可以参考 <a href="/2015/01/02/Binary-Search/">Binary Search</a><br>观察右边的图可以发现：<br>如果 M 在 左边的那条线上， M 一定大于 R, 因此 L ＝ M ＋ 1<br>如果 M 在 右边的那条线上， M 一定是小于 R或者是等于R, 因此 R ＝ M. 等于R的情况是 M 正好落在了右边那条线的第一个点上，也正是如此，我们不能用 R = M - 1;<br>首先，需要注意的是，while loop 的condition 发生了改变, 第一是加了个额外条件 A[L] &gt; A[R]， 这样做的原因是为了确保这个array是rotated. 一旦，A［L］ &lt; A[R], 说明L从左边边那条线移到了右边，所以直接return A[L] 既得到结果。<br>第二注意， L &lt;  R 而不是 L &lt;= R, 如果出现了 L ＝ R 的情况， 那就是 L和R 正好都在最小值的index那里， 所以直接return A[L]即可，不需要再次进入while loop. 如果进入的话， 因为 R ＝ M， 所以while loop 会进入无限循环之中。   </p>
+<p><img src="http://i58.tinypic.com/2a98mz4.png" alt=""></p>
+<h4 id="Solution">Solution</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findMin</span>(<span class="keyword">int</span>[] A) {    </div><div class="line">      <span class="keyword">int</span> L = <span class="number">0</span>;</div><div class="line">      <span class="keyword">int</span> R = A.length -<span class="number">1</span>;</div><div class="line">      <span class="keyword">while</span>(L &lt; R &amp;&amp; A[L] &gt; A[R]){</div><div class="line">          <span class="keyword">int</span> M = (L+R)/<span class="number">2</span>;</div><div class="line">          <span class="keyword">if</span>(A[M] &gt; A[R]) L = M + <span class="number">1</span>;</div><div class="line">          <span class="keyword">else</span> R = M;</div><div class="line">      }</div><div class="line">      </div><div class="line">      <span class="keyword">return</span> A[L];</div><div class="line">   }</div></pre></td></tr></table></figure>
+
+<p><br></p>
+<h5 id="Performance">Performance</h5>
+<pre><code>Time: <span class="keyword">O</span>(log n)  <span class="keyword">Space</span>: <span class="keyword">O</span>(<span class="number">1</span>)
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/2015/01/02/Find-Minimum-in-Rotated-Sorted-Array/" data-id="meaqmhy5nabc7ajk" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/">Binary Search</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Search-in-Rotated-Sorted-Array" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/02/Search-in-Rotated-Sorted-Array/" class="article-date">
+  <time datetime="2015-01-02T21:28:39.000Z" itemprop="datePublished">Jan 2 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Leetcode/">Leetcode</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/02/Search-in-Rotated-Sorted-Array/">Search in Rotated Sorted Array</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>Question :  Suppose a sorted array is rotated at some pivot unknown to you beforehand.<br>(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).<br>You are given a target value to search. If found in the array return its index, otherwise return -1.<br>You may assume no duplicate exists in the array.</p>
+</blockquote>
+<h4 id="Approach">Approach</h4>
+<p>先用<a href="/2015/01/02/Find-Minimum-in-Rotated-Sorted-Array/">Find Minimum in Rotated Sorted Array</a>的算法得到这个array里最小的值。然后在用target 和 array里最右边的element做比较确定搜索范围。最后用经典binary search algo 既可以得到答案</p>
+<h4 id="Solution">Solution</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span>(<span class="keyword">int</span>[] A, <span class="keyword">int</span> target) {        </div><div class="line">   <span class="keyword">int</span> L = <span class="number">0</span>;</div><div class="line">   <span class="keyword">int</span> R = A.length-<span class="number">1</span>;</div><div class="line">   <span class="comment">/* Find minimum element in the array */</span></div><div class="line">   <span class="keyword">while</span>(L &lt; R &amp;&amp; A[L] &gt; A[R]){</div><div class="line">   	  <span class="keyword">int</span> M = (L+R)/<span class="number">2</span>;</div><div class="line">   	  <span class="keyword">if</span>(A[M] &gt; A[R]) L = M + <span class="number">1</span>;</div><div class="line">   	  <span class="keyword">else</span> R = M;</div><div class="line">   }	</div><div class="line">   <span class="comment">/* Get the range of the target */</span>            </div><div class="line">   <span class="keyword">if</span>(target &lt;= A[A.length - <span class="number">1</span>]){</div><div class="line">      R = A.length -<span class="number">1</span>;</div><div class="line">   }</div><div class="line">   <span class="keyword">else</span>{</div><div class="line">      R = L -<span class="number">1</span>;</div><div class="line">      L = <span class="number">0</span>;</div><div class="line">   }</div><div class="line">   <span class="comment">/* Classical Binary Search Alogo */</span></div><div class="line">   <span class="keyword">while</span>(L &lt;= R){</div><div class="line">      <span class="keyword">int</span> M = (L + R)/<span class="number">2</span>;</div><div class="line">      <span class="keyword">if</span>(A[M] &gt; target) R = M - <span class="number">1</span>;</div><div class="line">      <span class="keyword">else</span> <span class="keyword">if</span>(A[M] &lt; target) L = M + <span class="number">1</span>;</div><div class="line">      <span class="keyword">else</span> <span class="keyword">return</span> M;</div><div class="line">   }	            </div><div class="line">   <span class="keyword">return</span> -<span class="number">1</span>;        </div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><br></p>
+<h4 id="Note">Note</h4>
+<h5 id="Performance">Performance</h5>
+<pre><code>Time: <span class="keyword">O</span>(log n)  <span class="keyword">Space</span>: <span class="keyword">O</span>(<span class="number">1</span>)
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/2015/01/02/Search-in-Rotated-Sorted-Array/" data-id="1f52tgji7jz0ct3e" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/">Binary Search</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Search-for-a-Range" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/02/Search-for-a-Range/" class="article-date">
+  <time datetime="2015-01-02T21:05:48.000Z" itemprop="datePublished">Jan 2 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Leetcode/">Leetcode</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/02/Search-for-a-Range/">Search for a Range</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>Question :  Given a sorted array of integers, find the starting and ending position of a given target value. Your algorithm’s runtime complexity must be in the order of O(log n). If the target is not found in the array, return [-1, -1].<br>For example,<br>Given [5, 7, 7, 8, 8, 10] and target value 8,<br>return [3, 4].</p>
+</blockquote>
+<h4 id="Approach">Approach</h4>
+<p>可以先用最基本的binary search algorithms 找到 target. 如果没有找到的话，直接return [-1, -1]. 如果找的话，就需要找到这个target的开始和结束。 这也是本题的难点。 我最开始想的方法是新建两个pointer, 指到刚刚找到的target index, 然后一个pointer一直往前找，直到遇到的element 不等于target. 第二个pointer往后找，逻辑同理。 但是这个算法找到target的开始和结尾用了O(n)的时间。为了保证算法始终是O(log n)，我们需要用binary search 去找到target的开始和结尾。 </p>
+<h4 id="Solution">Solution</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] <span class="title">searchRange</span>(<span class="keyword">int</span>[] A, <span class="keyword">int</span> target) {</div><div class="line">    <span class="keyword">int</span> index = binarySearch(A, <span class="number">0</span>, A.length-<span class="number">1</span>, target);</div><div class="line">    <span class="keyword">int</span>[] result = {-<span class="number">1</span>, -<span class="number">1</span>};</div><div class="line">    <span class="keyword">if</span> (index != -<span class="number">1</span>) {</div><div class="line">        <span class="keyword">int</span> left  = index; </div><div class="line">        <span class="keyword">int</span> right = index;</div><div class="line">        result[<span class="number">0</span>] = left;</div><div class="line">        result[<span class="number">1</span>] = right;</div><div class="line">        <span class="comment">//Find the starting and ending index for the target</span></div><div class="line">        <span class="keyword">while</span> ((left  = binarySearch(A, <span class="number">0</span>, left-<span class="number">1</span>, target)) != -<span class="number">1</span>)           result[<span class="number">0</span>] = left;</div><div class="line">        <span class="keyword">while</span> ((right = binarySearch(A, right+<span class="number">1</span>, A.length-<span class="number">1</span>, target)) != -<span class="number">1</span>) result[<span class="number">1</span>] = right;</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">//Helper function : Binary Search</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">binarySearch</span>(<span class="keyword">int</span>[] A, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi, <span class="keyword">int</span> target) {</div><div class="line">    <span class="keyword">while</span> (lo &lt;= hi) {</div><div class="line">        <span class="keyword">int</span> mid = lo + (hi - lo) / <span class="number">2</span>;</div><div class="line">        <span class="keyword">if</span>      (A[mid] &lt; target) lo = mid + <span class="number">1</span>;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (A[mid] &gt; target) hi = mid - <span class="number">1</span>;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">return</span> mid;            </div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><br></p>
+<h5 id="Performance">Performance</h5>
+<pre><code>Time: <span class="keyword">O</span>(log n)  <span class="keyword">Space</span>: <span class="keyword">O</span>(<span class="number">1</span>)
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/2015/01/02/Search-for-a-Range/" data-id="l3syl7he9ago01pu" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/">Binary Search</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Search-Insert-Position" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/02/Search-Insert-Position/" class="article-date">
+  <time datetime="2015-01-02T19:23:14.000Z" itemprop="datePublished">Jan 2 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Leetcode/">Leetcode</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/02/Search-Insert-Position/">Search Insert Position</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>Question :  Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order. You may assume no duplicates in the array.Here are few examples.<br>[1,3,5,6], 5 → 2<br>[1,3,5,6], 2 → 1<br>[1,3,5,6], 7 → 4<br>[1,3,5,6], 0 → 0</p>
+</blockquote>
+<h4 id="Approach">Approach</h4>
+<p>看到是sorted array 就知道此题一定会用到binary seach. 这题比较简单，用最经典<a href="/2015/01/02/Binary-Search/">binary search algorithm</a>模版稍加修改就可得到。 </p>
+<h4 id="Solution">Solution</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">searchInsert</span>(<span class="keyword">int</span>[] A, <span class="keyword">int</span> target) {</div><div class="line">       <span class="keyword">int</span> lo = <span class="number">0</span>;</div><div class="line">       <span class="keyword">int</span> hi = A.length - <span class="number">1</span>;</div><div class="line">       <span class="keyword">while</span> (lo &lt;= hi) {</div><div class="line">           <span class="keyword">int</span> mid = (lo + hi)/ <span class="number">2</span>;</div><div class="line">           <span class="keyword">if</span> (target &lt; A[mid]) hi = mid - <span class="number">1</span>;</div><div class="line">           <span class="keyword">else</span> <span class="keyword">if</span> (target &gt; A[mid]) lo = mid + <span class="number">1</span>;</div><div class="line">           <span class="keyword">else</span> <span class="keyword">return</span> mid;</div><div class="line">       }</div><div class="line">       <span class="keyword">return</span> lo;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+
+<h4 id="Note">Note</h4>
+<p>这题和经典模版唯一的不同是return lo 而不是 -1. 可能有些人会疑惑为什么不是 return hi, 设想一下，如果这个target 可以在这个array 里找到，那么function 直接return mid, 所以和lo 和 hi没有什么关系。<br>只有在target 在这个array 里找不到的情况下我们才可以分析为什么是return的是 lo 而不是 hi. 第一种情况是， 搜索到 lo 的 index 比 high 小一个， 比如 lo 的index  是 10， hi 的index 是 11， mid的index 是 （10 ＋ 11） ／2 ＝ 10；我们可以发现 mid 的值在这种情况下 是lo 的 值，所以 mid 和 target 相比较 就是等同于 lo 和 target 相比较。 如果 lo &gt; target, return lo, 新加的target应该放在lo这个位置。 反之，如果 target &gt; lo -&gt; lo + 1, target 放在 lo + 1 这个位置上。 第二种情况是， lo 的 index 和 high 相等， 所以 mid 的 index 也一定 和 lo 还有 hi 相等。 在这种情况下，与第一种情况相似， return lo 或者 hi 肯定不会错。<br>通过上面的分析，我们可以发现，只有当return lo 的 时候才能涵盖所有的 case.</p>
+<h5 id="Performance">Performance</h5>
+<pre><code>Time: <span class="keyword">O</span>(log n)  <span class="keyword">Space</span>: <span class="keyword">O</span>(<span class="number">1</span>)
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/2015/01/02/Search-Insert-Position/" data-id="9ybqkkf66hra65en" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/">Binary Search</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-To-begin-begin" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -93,8 +445,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/01/02/To-begin-begin/" data-id="ag5oi4jxqo1qpr7q" class="article-share-link">Share</a>
       
+        <a data-url="http://yoursite.com/2015/01/02/To-begin-begin/" data-id="syjxtdm0am2ir7zp" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
 
@@ -149,8 +505,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/01/02/hello-world/" data-id="5q8tps7ama4jpxbv" class="article-share-link">Share</a>
       
+        <a data-url="http://yoursite.com/2015/01/02/hello-world/" data-id="ig6lwbb8j2quwphs" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+
       
     </footer>
   </div>
@@ -161,16 +521,23 @@
   
   
 </section>
-        
-          <aside id="sidebar">
+      
+      <aside id="sidebar">
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Leetcode/">Leetcode</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Binary-Search/">Binary Search</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -179,7 +546,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/随笔/" style="font-size: NaNpx;">随笔</a>
+      <a href="/tags/Binary-Search/" style="font-size: 20.00px;">Binary Search</a><a href="/tags/随笔/" style="font-size: 10.00px;">随笔</a>
     </div>
   </div>
 
@@ -188,23 +555,54 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">8</span></li></ul>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2015/01/02/To-begin-begin/">To begin, begin</a>
+            <a href="/2015/01/02/Find-Minimum-in-Rotated-Sorted-Array-II/">Find Minimum in Rotated Sorted Array II </a>
           </li>
         
           <li>
-            <a href="/2015/01/02/hello-world/">Hello World</a>
+            <a href="/2015/01/02/Binary-Search/">Binary Search</a>
+          </li>
+        
+          <li>
+            <a href="/2015/01/02/Find-Minimum-in-Rotated-Sorted-Array/">Find Minimum in Rotated Sorted Array</a>
+          </li>
+        
+          <li>
+            <a href="/2015/01/02/Search-in-Rotated-Sorted-Array/">Search in Rotated Sorted Array</a>
+          </li>
+        
+          <li>
+            <a href="/2015/01/02/Search-for-a-Range/">Search for a Range</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://xiguabaobao.com" target="_blank">主题作者</a>
+          </li>
+        
+          <li>
+            <a href="http://reqianduan.com" target="_blank">热前端</a>
           </li>
         
       </ul>
@@ -213,39 +611,58 @@
 
   
 </aside>
-        
-      </div>
-      <footer id="footer">
+      
+    </div>
+    <footer id="footer">
   
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2015 Zhongtian Xu<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
     </div>
   </div>
 </footer>
-    </div>
-    <nav id="mobile-nav">
+  </div>
+  <nav id="mobile-nav">
   
     <a href="/" class="mobile-nav-link">Home</a>
   
     <a href="/archives" class="mobile-nav-link">Archives</a>
   
 </nav>
-    
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<!-- totop end -->
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+<!-- 百度分享 start -->
 
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"nocss.css"}};with(document)0[(getElementsByTagName("head")[0]||body).appendChild(createElement("script")).src="http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion="+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
 
 
 
 <script src="/js/script.js" type="text/javascript"></script>
 
 
-  </div>
+</div>
 </body>
 </html>

@@ -1,21 +1,23 @@
 
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   
-  <title>随笔 | Zhongtian Xu</title>
+  <title>Binary Search | Zhongtian Xu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="随笔">
-<meta property="og:url" content="http://yoursite.com/随笔/index.html">
+  <meta name="description" content="Introduction
+相信接触过算法的朋友对这个Binary Search都应该很熟悉 简单的来讲就是用 O(log n) 的时间去搜索一个sorted array. 注意，这里面有个key word -&gt; sorted array. 正是因为是sorted, 所以我们可以每次找到array的中间值，然后比较这个中间值的大小与given target的大小，以此来决定我们是从中间elem">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Binary Search">
+<meta property="og:url" content="http://yoursite.com/2015/01/02/Binary-Search/">
 <meta property="og:site_name" content="Zhongtian Xu">
-<meta property="og:description">
+<meta property="og:description" content="Introduction
+相信接触过算法的朋友对这个Binary Search都应该很熟悉 简单的来讲就是用 O(log n) 的时间去搜索一个sorted array. 注意，这里面有个key word -&gt; sorted array. 正是因为是sorted, 所以我们可以每次找到array的中间值，然后比较这个中间值的大小与given target的大小，以此来决定我们是从中间elem">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="随笔">
-<meta name="twitter:description">
+<meta name="twitter:title" content="Binary Search">
+<meta name="twitter:description" content="Introduction
+相信接触过算法的朋友对这个Binary Search都应该很熟悉 简单的来讲就是用 O(log n) 的时间去搜索一个sorted array. 注意，这里面有个key word -&gt; sorted array. 正是因为是sorted, 所以我们可以每次找到array的中间值，然后比较这个中间值的大小与given target的大小，以此来决定我们是从中间elem">
 
   
     <link rel="alternative" href="/atom.xml" title="Zhongtian Xu" type="application/atom+xml">
@@ -73,12 +75,16 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-Binary-Search" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/随笔/index.html" class="article-date">
-  <time datetime="2015-01-02T09:48:51.000Z" itemprop="datePublished">Jan 2 2015</time>
+    <a href="/2015/01/02/Binary-Search/" class="article-date">
+  <time datetime="2015-01-02T23:14:21.000Z" itemprop="datePublished">Jan 2 2015</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -87,7 +93,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      随笔
+      Binary Search
     </h1>
   
 
@@ -95,21 +101,51 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h3 id="Introduction">Introduction</h3>
+<p>相信接触过算法的朋友对这个Binary Search都应该很熟悉 简单的来讲就是用 <strong>O(log n)</strong> 的时间去搜索一个sorted array. 注意，这里面有个key word -&gt; sorted array. 正是因为是sorted, 所以我们可以每次找到array的中间值，然后比较这个中间值的大小与given target的大小，以此来决定我们是从中间element的右边还是左边开始下一次的搜索。</p>
+<h4 id="Classical_Binary_Search_Question">Classical Binary Search Question</h4>
+<blockquote>
+<p>Given an sorted integer array - a, and an integer - target. Find the first position of target in a, return -1 if target doesn’t exist.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">binarySearch</span>(<span class="keyword">int</span>[] a, <span class="keyword">int</span> target) {</div><div class="line">     <span class="keyword">int</span> lo = <span class="number">0</span>;</div><div class="line">     <span class="keyword">int</span> hi = a.length - <span class="number">1</span>;</div><div class="line">     <span class="keyword">while</span> (lo &lt;= hi) {</div><div class="line">        <span class="keyword">int</span> mid = (lo + hi)/<span class="number">2</span>;</div><div class="line">        <span class="keyword">if</span> (a[mid] == target) <span class="keyword">return</span> mid;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (a[mid] &lt; target) lo = mid + <span class="number">1</span>;</div><div class="line">        <span class="keyword">else</span> hi = mid - <span class="number">1</span>;</div><div class="line">     }</div><div class="line">     <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">  }</div></pre></td></tr></table></figure>
+
+<p>这个alorithm 应该很好理解，唯一需要注意的是while loop的condition是 lo&lt;= hi 而不是lo &lt; hi, 这样做的原因是如果不巧，正好我们algorithm 搜索到最后一次的时候是target值，而此时正好lo == hi,如果while loop 的 condition 是 lo &lt; hi 的话，则进入不了while loop, function return -1，得到了错误的答案。 lo &lt;= hi 这个condition 就可以解决这个edge case.  </p>
+
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/随笔/index.html" data-id="e58wnl3nc8on04lf" class="article-share-link" data-share="baidu">Share</a>
+        <a data-url="http://yoursite.com/2015/01/02/Binary-Search/" data-id="5hpcwpfkxzz2pzag" class="article-share-link" data-share="baidu">Share</a>
       
 
       
 
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/">Binary Search</a></li></ul>
+
     </footer>
   </div>
   
     
+<nav id="article-nav">
+  
+    <a href="/2015/01/02/Find-Minimum-in-Rotated-Sorted-Array-II/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Find Minimum in Rotated Sorted Array II 
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/01/02/Find-Minimum-in-Rotated-Sorted-Array/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Find Minimum in Rotated Sorted Array</div>
+    </a>
+  
+</nav>
+
   
 </article>
 
@@ -259,4 +295,3 @@
 </div>
 </body>
 </html>
-
