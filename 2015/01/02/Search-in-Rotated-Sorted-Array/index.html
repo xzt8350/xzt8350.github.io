@@ -1,21 +1,20 @@
 
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   
-  <title>随笔 | Zhongtian Xu</title>
+  <title>Search in Rotated Sorted Array | Zhongtian Xu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="随笔">
-<meta property="og:url" content="http://yoursite.com/随笔/index.html">
+  <meta name="description" content="Question :  Suppose a sorted array is rotated at some pivot unknown to you beforehand.(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).You are given a target value to search. If found in the array re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Search in Rotated Sorted Array">
+<meta property="og:url" content="http://yoursite.com/2015/01/02/Search-in-Rotated-Sorted-Array/">
 <meta property="og:site_name" content="Zhongtian Xu">
-<meta property="og:description">
+<meta property="og:description" content="Question :  Suppose a sorted array is rotated at some pivot unknown to you beforehand.(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).You are given a target value to search. If found in the array re">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="随笔">
-<meta name="twitter:description">
+<meta name="twitter:title" content="Search in Rotated Sorted Array">
+<meta name="twitter:description" content="Question :  Suppose a sorted array is rotated at some pivot unknown to you beforehand.(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).You are given a target value to search. If found in the array re">
 
   
     <link rel="alternative" href="/atom.xml" title="Zhongtian Xu" type="application/atom+xml">
@@ -73,12 +72,16 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-Search-in-Rotated-Sorted-Array" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/随笔/index.html" class="article-date">
-  <time datetime="2015-01-02T09:48:51.000Z" itemprop="datePublished">Jan 2 2015</time>
+    <a href="/2015/01/02/Search-in-Rotated-Sorted-Array/" class="article-date">
+  <time datetime="2015-01-02T21:28:39.000Z" itemprop="datePublished">Jan 2 2015</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Leetcode/">Leetcode</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -87,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      随笔
+      Search in Rotated Sorted Array
     </h1>
   
 
@@ -95,21 +98,54 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <blockquote>
+<p>Question :  Suppose a sorted array is rotated at some pivot unknown to you beforehand.<br>(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).<br>You are given a target value to search. If found in the array return its index, otherwise return -1.<br>You may assume no duplicate exists in the array.</p>
+</blockquote>
+<h4 id="Approach">Approach</h4>
+<p>先用<a href="/2015/01/02/Find-Minimum-in-Rotated-Sorted-Array/">Find Minimum in Rotated Sorted Array</a>的算法得到这个array里最小的值。然后在用target 和 array里最右边的element做比较确定搜索范围。最后用经典binary search algo 既可以得到答案</p>
+<h4 id="Solution">Solution</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span>(<span class="keyword">int</span>[] A, <span class="keyword">int</span> target) {        </div><div class="line">   <span class="keyword">int</span> L = <span class="number">0</span>;</div><div class="line">   <span class="keyword">int</span> R = A.length-<span class="number">1</span>;</div><div class="line">   <span class="comment">/* Find minimum element in the array */</span></div><div class="line">   <span class="keyword">while</span>(L &lt; R &amp;&amp; A[L] &gt; A[R]){</div><div class="line">   	  <span class="keyword">int</span> M = (L+R)/<span class="number">2</span>;</div><div class="line">   	  <span class="keyword">if</span>(A[M] &gt; A[R]) L = M + <span class="number">1</span>;</div><div class="line">   	  <span class="keyword">else</span> R = M;</div><div class="line">   }	</div><div class="line">   <span class="comment">/* Get the range of the target */</span>            </div><div class="line">   <span class="keyword">if</span>(target &lt;= A[A.length - <span class="number">1</span>]){</div><div class="line">      R = A.length -<span class="number">1</span>;</div><div class="line">   }</div><div class="line">   <span class="keyword">else</span>{</div><div class="line">      R = L -<span class="number">1</span>;</div><div class="line">      L = <span class="number">0</span>;</div><div class="line">   }</div><div class="line">   <span class="comment">/* Classical Binary Search Alogo */</span></div><div class="line">   <span class="keyword">while</span>(L &lt;= R){</div><div class="line">      <span class="keyword">int</span> M = (L + R)/<span class="number">2</span>;</div><div class="line">      <span class="keyword">if</span>(A[M] &gt; target) R = M - <span class="number">1</span>;</div><div class="line">      <span class="keyword">else</span> <span class="keyword">if</span>(A[M] &lt; target) L = M + <span class="number">1</span>;</div><div class="line">      <span class="keyword">else</span> <span class="keyword">return</span> M;</div><div class="line">   }	            </div><div class="line">   <span class="keyword">return</span> -<span class="number">1</span>;        </div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><br></p>
+<h4 id="Note">Note</h4>
+<h5 id="Performance">Performance</h5>
+<pre><code>Time: <span class="keyword">O</span>(log n)  <span class="keyword">Space</span>: <span class="keyword">O</span>(<span class="number">1</span>)
+</code></pre>
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/随笔/index.html" data-id="e58wnl3nc8on04lf" class="article-share-link" data-share="baidu">Share</a>
+        <a data-url="http://yoursite.com/2015/01/02/Search-in-Rotated-Sorted-Array/" data-id="1f52tgji7jz0ct3e" class="article-share-link" data-share="baidu">Share</a>
       
 
       
 
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/">Binary Search</a></li></ul>
+
     </footer>
   </div>
   
     
+<nav id="article-nav">
+  
+    <a href="/2015/01/02/Find-Minimum-in-Rotated-Sorted-Array/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Find Minimum in Rotated Sorted Array
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/01/02/Search-for-a-Range/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Search for a Range</div>
+    </a>
+  
+</nav>
+
   
 </article>
 
@@ -259,4 +295,3 @@
 </div>
 </body>
 </html>
-

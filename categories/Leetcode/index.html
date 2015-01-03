@@ -4,15 +4,12 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Zhongtian's Blog</title>
-
-  
-
+  <title>Category: Leetcode | Zhongtian Xu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Zhongtian Xu">
-<meta property="og:url" content="http://yoursite.com/">
+<meta property="og:url" content="http://yoursite.com/categories/Leetcode/">
 <meta property="og:site_name" content="Zhongtian Xu">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
@@ -38,14 +35,13 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-
-        <a href="/" id="logo">Zhongtian's Blog</a>
+        <a href="/" id="logo">Zhongtian Xu</a>
       </h1>
       
-      <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Innovation Optimism Sympathy</a>
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">To begin, begin</a>
         </h2>
-
+      
     </div>
     <div id="header-inner" class="inner">
       <nav id="main-nav">
@@ -122,61 +118,6 @@
     <footer class="article-footer">
       
         <a data-url="http://yoursite.com/2015/01/02/Find-Minimum-in-Rotated-Sorted-Array-II/" data-id="txfg5jsdh6mgl8d0" class="article-share-link" data-share="baidu">Share</a>
-      
-
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/">Binary Search</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Binary-Search" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/01/02/Binary-Search/" class="article-date">
-  <time datetime="2015-01-02T23:14:21.000Z" itemprop="datePublished">Jan 2 2015</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/01/02/Binary-Search/">Binary Search</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Introduction">Introduction</h3>
-<p>相信接触过算法的朋友对这个Binary Search都应该很熟悉 简单的来讲就是用 <strong>O(log n)</strong> 的时间去搜索一个sorted array. 注意，这里面有个key word -&gt; sorted array. 正是因为是sorted, 所以我们可以每次找到array的中间值，然后比较这个中间值的大小与given target的大小，以此来决定我们是从中间element的右边还是左边开始下一次的搜索。</p>
-<h4 id="Classical_Binary_Search_Question">Classical Binary Search Question</h4>
-<blockquote>
-<p>Given an sorted integer array - a, and an integer - target. Find the first position of target in a, return -1 if target doesn’t exist.</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">binarySearch</span>(<span class="keyword">int</span>[] a, <span class="keyword">int</span> target) {</div><div class="line">     <span class="keyword">int</span> lo = <span class="number">0</span>;</div><div class="line">     <span class="keyword">int</span> hi = a.length - <span class="number">1</span>;</div><div class="line">     <span class="keyword">while</span> (lo &lt;= hi) {</div><div class="line">        <span class="keyword">int</span> mid = (lo + hi)/<span class="number">2</span>;</div><div class="line">        <span class="keyword">if</span> (a[mid] == target) <span class="keyword">return</span> mid;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (a[mid] &lt; target) lo = mid + <span class="number">1</span>;</div><div class="line">        <span class="keyword">else</span> hi = mid - <span class="number">1</span>;</div><div class="line">     }</div><div class="line">     <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">  }</div></pre></td></tr></table></figure>
-
-<p>这个alorithm 应该很好理解，唯一需要注意的是while loop的condition是 lo&lt;= hi 而不是lo &lt; hi, 这样做的原因是如果不巧，正好我们algorithm 搜索到最后一次的时候是target值，而此时正好lo == hi,如果while loop 的 condition 是 lo &lt; hi 的话，则进入不了while loop, function return -1，得到了错误的答案。 lo &lt;= hi 这个condition 就可以解决这个edge case.  </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/2015/01/02/Binary-Search/" data-id="5hpcwpfkxzz2pzag" class="article-share-link" data-share="baidu">Share</a>
       
 
       
@@ -416,106 +357,6 @@
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/">Binary Search</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-To-begin-begin" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/01/02/To-begin-begin/" class="article-date">
-  <time datetime="2015-01-02T09:32:46.000Z" itemprop="datePublished">Jan 2 2015</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/01/02/To-begin-begin/">To begin, begin</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/2015/01/02/To-begin-begin/" data-id="syjxtdm0am2ir7zp" class="article-share-link" data-share="baidu">Share</a>
-      
-
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/01/02/hello-world/" class="article-date">
-  <time datetime="2015-01-02T06:10:00.000Z" itemprop="datePublished">Jan 2 2015</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/01/02/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2>
-<h3 id="Create_a_new_post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/2015/01/02/hello-world/" data-id="ig6lwbb8j2quwphs" class="article-share-link" data-share="baidu">Share</a>
-      
-
-      
-
-      
     </footer>
   </div>
   

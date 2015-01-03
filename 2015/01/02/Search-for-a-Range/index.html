@@ -4,17 +4,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>To begin, begin | Zhongtian Xu</title>
+  <title>Search for a Range | Zhongtian Xu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+  <meta name="description" content="Question :  Given a sorted array of integers, find the starting and ending position of a given target value. Your algorithm’s runtime complexity must be in the order of O(log n). If the target is not">
 <meta property="og:type" content="article">
-<meta property="og:title" content="To begin, begin">
-<meta property="og:url" content="http://yoursite.com/2015/01/02/To-begin-begin/">
+<meta property="og:title" content="Search for a Range">
+<meta property="og:url" content="http://yoursite.com/2015/01/02/Search-for-a-Range/">
 <meta property="og:site_name" content="Zhongtian Xu">
-<meta property="og:description">
+<meta property="og:description" content="Question :  Given a sorted array of integers, find the starting and ending position of a given target value. Your algorithm’s runtime complexity must be in the order of O(log n). If the target is not">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="To begin, begin">
-<meta name="twitter:description">
+<meta name="twitter:title" content="Search for a Range">
+<meta name="twitter:description" content="Question :  Given a sorted array of integers, find the starting and ending position of a given target value. Your algorithm’s runtime complexity must be in the order of O(log n). If the target is not">
 
   
     <link rel="alternative" href="/atom.xml" title="Zhongtian Xu" type="application/atom+xml">
@@ -72,12 +72,16 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-To-begin-begin" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-Search-for-a-Range" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/01/02/To-begin-begin/" class="article-date">
-  <time datetime="2015-01-02T09:32:46.000Z" itemprop="datePublished">Jan 2 2015</time>
+    <a href="/2015/01/02/Search-for-a-Range/" class="article-date">
+  <time datetime="2015-01-02T21:05:48.000Z" itemprop="datePublished">Jan 2 2015</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Leetcode/">Leetcode</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -86,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      To begin, begin
+      Search for a Range
     </h1>
   
 
@@ -94,18 +98,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <blockquote>
+<p>Question :  Given a sorted array of integers, find the starting and ending position of a given target value. Your algorithm’s runtime complexity must be in the order of O(log n). If the target is not found in the array, return [-1, -1].<br>For example,<br>Given [5, 7, 7, 8, 8, 10] and target value 8,<br>return [3, 4].</p>
+</blockquote>
+<h4 id="Approach">Approach</h4>
+<p>可以先用最基本的binary search algorithms 找到 target. 如果没有找到的话，直接return [-1, -1]. 如果找的话，就需要找到这个target的开始和结束。 这也是本题的难点。 我最开始想的方法是新建两个pointer, 指到刚刚找到的target index, 然后一个pointer一直往前找，直到遇到的element 不等于target. 第二个pointer往后找，逻辑同理。 但是这个算法找到target的开始和结尾用了O(n)的时间。为了保证算法始终是O(log n)，我们需要用binary search 去找到target的开始和结尾。 </p>
+<h4 id="Solution">Solution</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] <span class="title">searchRange</span>(<span class="keyword">int</span>[] A, <span class="keyword">int</span> target) {</div><div class="line">    <span class="keyword">int</span> index = binarySearch(A, <span class="number">0</span>, A.length-<span class="number">1</span>, target);</div><div class="line">    <span class="keyword">int</span>[] result = {-<span class="number">1</span>, -<span class="number">1</span>};</div><div class="line">    <span class="keyword">if</span> (index != -<span class="number">1</span>) {</div><div class="line">        <span class="keyword">int</span> left  = index; </div><div class="line">        <span class="keyword">int</span> right = index;</div><div class="line">        result[<span class="number">0</span>] = left;</div><div class="line">        result[<span class="number">1</span>] = right;</div><div class="line">        <span class="comment">//Find the starting and ending index for the target</span></div><div class="line">        <span class="keyword">while</span> ((left  = binarySearch(A, <span class="number">0</span>, left-<span class="number">1</span>, target)) != -<span class="number">1</span>)           result[<span class="number">0</span>] = left;</div><div class="line">        <span class="keyword">while</span> ((right = binarySearch(A, right+<span class="number">1</span>, A.length-<span class="number">1</span>, target)) != -<span class="number">1</span>) result[<span class="number">1</span>] = right;</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">//Helper function : Binary Search</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">binarySearch</span>(<span class="keyword">int</span>[] A, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi, <span class="keyword">int</span> target) {</div><div class="line">    <span class="keyword">while</span> (lo &lt;= hi) {</div><div class="line">        <span class="keyword">int</span> mid = lo + (hi - lo) / <span class="number">2</span>;</div><div class="line">        <span class="keyword">if</span>      (A[mid] &lt; target) lo = mid + <span class="number">1</span>;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (A[mid] &gt; target) hi = mid - <span class="number">1</span>;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">return</span> mid;            </div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><br></p>
+<h5 id="Performance">Performance</h5>
+<pre><code>Time: <span class="keyword">O</span>(log n)  <span class="keyword">Space</span>: <span class="keyword">O</span>(<span class="number">1</span>)
+</code></pre>
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/2015/01/02/To-begin-begin/" data-id="syjxtdm0am2ir7zp" class="article-share-link" data-share="baidu">Share</a>
+        <a data-url="http://yoursite.com/2015/01/02/Search-for-a-Range/" data-id="l3syl7he9ago01pu" class="article-share-link" data-share="baidu">Share</a>
       
 
       
 
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/">Binary Search</a></li></ul>
 
     </footer>
   </div>
@@ -113,19 +128,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/01/02/Search-Insert-Position/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/01/02/Search-in-Rotated-Sorted-Array/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Search Insert Position
+          Search in Rotated Sorted Array
         
       </div>
     </a>
   
   
-    <a href="/2015/01/02/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/01/02/Search-Insert-Position/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title">Search Insert Position</div>
     </a>
   
 </nav>

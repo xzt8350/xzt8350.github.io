@@ -1,21 +1,20 @@
 
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   
-  <title>随笔 | Zhongtian Xu</title>
+  <title>Search Insert Position | Zhongtian Xu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="随笔">
-<meta property="og:url" content="http://yoursite.com/随笔/index.html">
+  <meta name="description" content="Question :  Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order. You may assume no duplicates in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Search Insert Position">
+<meta property="og:url" content="http://yoursite.com/2015/01/02/Search-Insert-Position/">
 <meta property="og:site_name" content="Zhongtian Xu">
-<meta property="og:description">
+<meta property="og:description" content="Question :  Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order. You may assume no duplicates in">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="随笔">
-<meta name="twitter:description">
+<meta name="twitter:title" content="Search Insert Position">
+<meta name="twitter:description" content="Question :  Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order. You may assume no duplicates in">
 
   
     <link rel="alternative" href="/atom.xml" title="Zhongtian Xu" type="application/atom+xml">
@@ -73,12 +72,16 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-Search-Insert-Position" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/随笔/index.html" class="article-date">
-  <time datetime="2015-01-02T09:48:51.000Z" itemprop="datePublished">Jan 2 2015</time>
+    <a href="/2015/01/02/Search-Insert-Position/" class="article-date">
+  <time datetime="2015-01-02T19:23:14.000Z" itemprop="datePublished">Jan 2 2015</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Leetcode/">Leetcode</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -87,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      随笔
+      Search Insert Position
     </h1>
   
 
@@ -95,21 +98,55 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <blockquote>
+<p>Question :  Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order. You may assume no duplicates in the array.Here are few examples.<br>[1,3,5,6], 5 → 2<br>[1,3,5,6], 2 → 1<br>[1,3,5,6], 7 → 4<br>[1,3,5,6], 0 → 0</p>
+</blockquote>
+<h4 id="Approach">Approach</h4>
+<p>看到是sorted array 就知道此题一定会用到binary seach. 这题比较简单，用最经典<a href="/2015/01/02/Binary-Search/">binary search algorithm</a>模版稍加修改就可得到。 </p>
+<h4 id="Solution">Solution</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">searchInsert</span>(<span class="keyword">int</span>[] A, <span class="keyword">int</span> target) {</div><div class="line">       <span class="keyword">int</span> lo = <span class="number">0</span>;</div><div class="line">       <span class="keyword">int</span> hi = A.length - <span class="number">1</span>;</div><div class="line">       <span class="keyword">while</span> (lo &lt;= hi) {</div><div class="line">           <span class="keyword">int</span> mid = (lo + hi)/ <span class="number">2</span>;</div><div class="line">           <span class="keyword">if</span> (target &lt; A[mid]) hi = mid - <span class="number">1</span>;</div><div class="line">           <span class="keyword">else</span> <span class="keyword">if</span> (target &gt; A[mid]) lo = mid + <span class="number">1</span>;</div><div class="line">           <span class="keyword">else</span> <span class="keyword">return</span> mid;</div><div class="line">       }</div><div class="line">       <span class="keyword">return</span> lo;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+
+<h4 id="Note">Note</h4>
+<p>这题和经典模版唯一的不同是return lo 而不是 -1. 可能有些人会疑惑为什么不是 return hi, 设想一下，如果这个target 可以在这个array 里找到，那么function 直接return mid, 所以和lo 和 hi没有什么关系。<br>只有在target 在这个array 里找不到的情况下我们才可以分析为什么是return的是 lo 而不是 hi. 第一种情况是， 搜索到 lo 的 index 比 high 小一个， 比如 lo 的index  是 10， hi 的index 是 11， mid的index 是 （10 ＋ 11） ／2 ＝ 10；我们可以发现 mid 的值在这种情况下 是lo 的 值，所以 mid 和 target 相比较 就是等同于 lo 和 target 相比较。 如果 lo &gt; target, return lo, 新加的target应该放在lo这个位置。 反之，如果 target &gt; lo -&gt; lo + 1, target 放在 lo + 1 这个位置上。 第二种情况是， lo 的 index 和 high 相等， 所以 mid 的 index 也一定 和 lo 还有 hi 相等。 在这种情况下，与第一种情况相似， return lo 或者 hi 肯定不会错。<br>通过上面的分析，我们可以发现，只有当return lo 的 时候才能涵盖所有的 case.</p>
+<h5 id="Performance">Performance</h5>
+<pre><code>Time: <span class="keyword">O</span>(log n)  <span class="keyword">Space</span>: <span class="keyword">O</span>(<span class="number">1</span>)
+</code></pre>
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/随笔/index.html" data-id="e58wnl3nc8on04lf" class="article-share-link" data-share="baidu">Share</a>
+        <a data-url="http://yoursite.com/2015/01/02/Search-Insert-Position/" data-id="9ybqkkf66hra65en" class="article-share-link" data-share="baidu">Share</a>
       
 
       
 
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/">Binary Search</a></li></ul>
+
     </footer>
   </div>
   
     
+<nav id="article-nav">
+  
+    <a href="/2015/01/02/Search-for-a-Range/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Search for a Range
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/01/02/To-begin-begin/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">To begin, begin</div>
+    </a>
+  
+</nav>
+
   
 </article>
 
@@ -259,4 +296,3 @@
 </div>
 </body>
 </html>
-
